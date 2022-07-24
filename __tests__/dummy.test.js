@@ -1,3 +1,5 @@
+import { forTest } from "../src";
+
 test('dummy', () => {
-  expect(true).toBeTruthy();
+  expect(forTest()).toBe(0);
 });
