@@ -6,3 +6,8 @@ parserOptions:
   ecmaVersion: latest
   sourceType: module
 rules: {}
+ignorePatterns: [
+  "__tests__",
+  "dist",
+  "webpack.config.js"
+]
