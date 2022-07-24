@@ -2,9 +2,12 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ESLintPlugin = require('eslint-webpack-plugin');
+const ESLintPlugin = require("eslint-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV == 'production';
+
+
+const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
 
 const config = {
   entry: './src/index.js',
@@ -20,13 +23,21 @@ const config = {
       template: 'index.html',
     }),
     new ESLintPlugin({
-      exclude: ['node_modules', 'dist'],
+      exclude: ['node_modules', 'dist']
     }),
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],
   module: {
     rules: [
+      {
+        test: /\.(js|jsx)$/i,
+        loader: 'babel-loader',
+      },
+      {
+        test: /\.css$/i,
+        use: [stylesHandler,'css-loader'],
+      },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         type: 'asset',
