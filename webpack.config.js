@@ -3,11 +3,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require("eslint-webpack-plugin");
+const webpack = require("webpack");
 
 const isProduction = process.env.NODE_ENV == 'production';
-
-
-const stylesHandler = isProduction ? MiniCssExtractPlugin.loader : 'style-loader';
 
 const config = {
   entry: './src/index.js',
@@ -18,34 +16,56 @@ const config = {
   devServer: {
     open: true,
     host: 'localhost',
+    static: './dist',
+    hot: true,
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: 'index.html',
+      filename: "index.html",
+      template: "index.html",
     }),
     new ESLintPlugin({
       exclude: ['node_modules', 'dist']
     }),
-    // Add your plugins here
-    // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+    new webpack.HotModuleReplacementPlugin(),
   ],
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/i,
-        loader: 'babel-loader',
+        test: /\.(scss|css|sass)$/i,
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  'autoprefixer',
+                ],
+              },
+            },
+          },
+          {
+            loader: 'sass-loader',
+          }
+        ]
       },
       {
-        test: /\.css$/i,
-        use: [stylesHandler,'css-loader'],
+        test: /\.js$/i,
+        exclude: /(node_modules)/,
+        use: {
+          loader: "babel-loader",
+        }
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         type: 'asset',
       },
-
-      // Add your rules for custom modules here
-      // Learn more about loaders from https://webpack.js.org/loaders/
     ],
   },
 };
