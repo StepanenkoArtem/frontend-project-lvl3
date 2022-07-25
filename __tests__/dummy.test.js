@@ -1,3 +1,4 @@
+// Remove this test after adding real tests
 import { forTest } from "../src";
 
 test('dummy', () => {
