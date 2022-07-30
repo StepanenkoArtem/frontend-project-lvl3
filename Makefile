@@ -1,5 +1,5 @@
 prettier-write:
-	npx prettier-eslint --write **/*.js
+	npx prettier-eslint --write src/**/*.js
 
 install:
 	npm install
