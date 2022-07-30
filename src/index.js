@@ -1,34 +1,32 @@
 import "bootstrap";
 import "./styles/styles.scss";
 import onChange from "on-change";
-import { object, string } from "yup";
+import { object, string, setLocale } from "yup";
 import render from "./view";
+import { i18n, initState, VALIDATION } from "./init";
 
-let urlFormSchema = object({
-  url: string().url().required("URL CAN'T BE EMPTY"),
+setLocale({
+  string: {
+    url: {
+      required: i18n.t("en.string.url.required"),
+      invalid: i18n.t("string.url.invalid"),
+    },
+  },
 });
 
-export const VALIDATION = {
-  PENDING: "pending",
-  PASSED: "passed",
-  FAILED: "failed",
-};
+let urlFormSchema = object({
+  url: string().url().required(),
+});
 
 const form = document.querySelector("form");
-
-const initState = {
-  form: {
-    validation: VALIDATION.PENDING,
-    error: null,
-  },
-  urls: [],
-};
 
 const state = onChange(initState, render);
 
 const isNotExist = (url) =>
   state.urls.includes(url)
-    ? new Promise((resolve, reject) => reject(new Error("Url already exists")))
+    ? new Promise((resolve, reject) =>
+        reject(new Error(i18n.t("string.url.added")))
+      )
     : true;
 
 const handleValidationError = (error) => {
