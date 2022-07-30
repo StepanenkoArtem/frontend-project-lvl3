@@ -19,6 +19,9 @@ build:
 dev-build:
 	npm run build:dev
 
+serve:
+	npm run serve
+
 test-coverage:
 	npm test -- --coverage --coverageProvider=v8
 
