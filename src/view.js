@@ -1,4 +1,4 @@
-import { VALIDATION } from "./index";
+import { VALIDATION } from "./init";
 
 export default (path, current) => {
   const input = document.querySelector('[aria-label = "url"]');
