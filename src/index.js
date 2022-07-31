@@ -1,22 +1,9 @@
 import "bootstrap";
 import "./styles/styles.scss";
+import { i18n, initState, VALIDATION, urlFormSchema } from "./init";
+
 import onChange from "on-change";
-import { object, string, setLocale } from "yup";
 import render from "./view";
-import { i18n, initState, VALIDATION } from "./init";
-
-setLocale({
-  string: {
-    url: {
-      required: i18n.t("en.string.url.required"),
-      invalid: i18n.t("string.url.invalid"),
-    },
-  },
-});
-
-let urlFormSchema = object({
-  url: string().url().required(),
-});
 
 const form = document.querySelector("form");
 
