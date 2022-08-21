@@ -9,7 +9,7 @@ export default (data) => {
 
   try {
     const xmlDoc = parser.parseFromString(data, "application/xml");
-    const channel = xmlDoc.getElementsByTagName("channel")[0];
+    const channel = xmlDoc.querySelector("channel");
     const channelId = nanoid(8);
 
     const feedPosts = Array.from(channel.childNodes)
@@ -18,20 +18,17 @@ export default (data) => {
         return {
           channelId,
           id: nanoid(8),
-          title: post.getElementsByTagName("title")[0].childNodes[0].nodeValue,
-          description:
-            post.getElementsByTagName("description")[0].childNodes[0].nodeValue,
-          link: post.getElementsByTagName("link")[0].childNodes[0].nodeValue,
-          pubDate:
-            post.getElementsByTagName("pubDate")[0].childNodes[0].nodeValue,
+          title: post.querySelector("title").firstChild.nodeValue,
+          description: post.querySelector("description").firstChild.nodeValue,
+          link: post.querySelector("link").firstChild.nodeValue,
+          pubDate: post.querySelector("pubDate").firstChild.nodeValue,
         };
       });
 
     const feedInfo = {
       id: channelId,
-      description:
-        channel.getElementsByTagName("description")[0].childNodes[0].nodeValue,
-      title: channel.getElementsByTagName("title")[0].childNodes[0].nodeValue,
+      description: channel.querySelector("description").firstChild.nodeValue,
+      title: channel.querySelector("title").firstChild.nodeValue,
     };
 
     return { feedInfo, feedPosts };
