@@ -1,6 +1,6 @@
-import renderPosts from './view/posts';
-import renderChannels from './view/channels';
-import renderHeader from './view/header.js';
+import renderPosts from '../view/posts';
+import renderChannels from '../view/channels';
+import renderHeader from '../view/header.js';
 
 export default (path, current) => {
   switch (path) {
@@ -9,11 +9,11 @@ export default (path, current) => {
       renderHeader(path, current);
       break;
     }
-    case 'feeds.channels': {
+    case 'rss.feeds': {
       renderChannels(current);
       break;
     }
-    case 'feeds.posts': {
+    case 'rss.posts': {
       renderPosts(current);
       break;
     }

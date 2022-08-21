@@ -3,15 +3,17 @@ import { STATUS } from "../constants";
 export const initState = {
   error: null,
   status: STATUS.PENDING,
+  currentUrl: null,
   urls: [],
-  feeds: {
-    channels: [
+  rss: {
+    feeds: [
       /*
       {
         id: number,
         url: string,
         title: string,
-        description: string
+        description: string,
+        lastBuildUpdate: datetime
       } */
     ],
 
@@ -23,6 +25,7 @@ export const initState = {
         title: string,
         description: string,
         read: boolean,
+        pubDate: Datetime
       }
     */
     ],
