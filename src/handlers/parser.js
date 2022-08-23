@@ -1,34 +1,30 @@
-import { nanoid } from "nanoid";
-import { ERRORS, STATUS } from "../constants";
-import { state } from "../init";
+import { ERRORS } from "../constants";
 
 const parser = new DOMParser();
 
-export default (data) => {
-  state.status = STATUS.PARSING;
+export default ({ contents, status }) => {
+  const { url } = status;
 
   try {
-    const xmlDoc = parser.parseFromString(data, "application/xml");
-    const channel = xmlDoc.querySelector("channel");
-    const channelId = nanoid(8);
+    const xmlDoc = parser.parseFromString(contents, "application/xml");
+    const feed = xmlDoc.querySelector("channel");
 
-    const feedPosts = Array.from(channel.childNodes)
+    const feedPosts = Array.from(feed.childNodes)
       .filter((child) => child.nodeName === "item")
       .map((post) => {
         return {
-          channelId,
-          id: nanoid(8),
           title: post.querySelector("title").firstChild.nodeValue,
           description: post.querySelector("description").firstChild.nodeValue,
           link: post.querySelector("link").firstChild.nodeValue,
           pubDate: post.querySelector("pubDate").firstChild.nodeValue,
+          guid: post.querySelector("guid").firstChild.nodeValue
         };
       });
 
     const feedInfo = {
-      id: channelId,
-      description: channel.querySelector("description").firstChild.nodeValue,
-      title: channel.querySelector("title").firstChild.nodeValue,
+      url,
+      description: feed.querySelector("description").firstChild.nodeValue,
+      title: feed.querySelector("title").firstChild.nodeValue,
     };
 
     return { feedInfo, feedPosts };
