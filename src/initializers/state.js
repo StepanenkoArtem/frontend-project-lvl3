@@ -3,7 +3,6 @@ import { STATUS } from "../constants";
 export const initState = {
   error: null,
   status: STATUS.PENDING,
-  currentUrl: null,
   urls: [],
   rss: {
     feeds: [
@@ -13,14 +12,18 @@ export const initState = {
         url: string,
         title: string,
         description: string,
-        lastBuildUpdate: datetime
       } */
     ],
+    getFeedByUrl(url) {
+      return this.feeds.find((feed) => feed.url === url);
+    },
+
     posts: [
       /*
       {
-        id: number,
-        channelId: number,
+        id: string,
+        feedId: number,
+        guid: string,
         title: string,
         description: string,
         read: boolean,
@@ -28,5 +31,8 @@ export const initState = {
       }
     */
     ],
+    getPostsForFeed(id) {
+      return this.posts.filter((post) => post.feedId === id);
+    },
   },
 };
