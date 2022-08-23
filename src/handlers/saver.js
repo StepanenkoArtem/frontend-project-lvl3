@@ -1,13 +1,20 @@
 import { state } from "../init";
-import { STATUS } from "../constants";
+import { nanoid } from "nanoid";
 
 export default ({ feedInfo, feedPosts }) => {
-  state.status = STATUS.SUCCESS;
-  const { rss, currentUrl, urls } = state;
+  const { rss, urls } = state;
+  const { url } = feedInfo;
+  const feedId = rss.getFeedByUrl(url)?.id || nanoid(8);
+  const existedPosts = rss.getPostsForFeed(feedId);
 
-  rss.feeds = [...rss.feeds, feedInfo];
-  rss.posts = [...rss.posts, ...feedPosts];
+  if (!urls.includes(url)) {
+    state.urls = [url, ...urls];
+    rss.feeds = [...rss.feeds, { id: feedId, ...feedInfo }];
+  }
 
-  state.urls = [...urls, currentUrl];
-  state.status = STATUS.PENDING;
+  const preparedPosts = feedPosts
+    .filter(({ guid }) => !existedPosts.map((post) => post.guid).includes(guid))
+    .map((post) => ({ feedId, ...post, pubDate: Date.parse(post.pubDate) }))
+
+  rss.posts = [...rss.posts, ...preparedPosts];
 };

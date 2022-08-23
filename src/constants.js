@@ -1,8 +1,6 @@
 export const STATUS = {
   PENDING: "PENDING",
   DOWNLOADING: "DOWNLOADING",
-  PARSING: "PARSING",
-  SUCCESS: "SUCCESS",
   FAILED: "FAILED",
 };
 
@@ -11,3 +9,5 @@ export const ERRORS = {
   URL_NOT_UNIQ: 'URL_NOT_UNIQ',
   INVALID_RSS: 'INVALID_RSS',
 }
+
+export const DELAY = 5000;
