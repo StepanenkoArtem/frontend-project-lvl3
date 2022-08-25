@@ -66,6 +66,11 @@ const config = {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
         type: 'asset',
       },
+      {
+        test: /\.html$/,
+        exclude: /node_modules/,
+        use: {loader: 'html-loader'}
+      }
     ],
   },
 };
