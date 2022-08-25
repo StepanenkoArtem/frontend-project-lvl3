@@ -7,15 +7,14 @@ const feedbackLabel = header.querySelector('[aria-label="feedback"]');
 const input = header.querySelector('[aria-label="url"]');
 const submit = header.querySelector('[type="submit"]');
 
-const isFormDisabled = (status) =>
-  ![STATUS.FAILED, STATUS.PENDING].includes(status);
+const isFormDisabled = (status) => status === STATUS.DOWNLOADING;
 
 export default (path, current) => {
   switch (path) {
     case "status": {
       input.disabled = isFormDisabled(current);
       submit.disabled = isFormDisabled(current);
-      if (current === STATUS.PENDING) {
+      if (current === STATUS.SUCCESS) {
         input.value = "";
         feedbackLabel.textContent = i18n.t("success");
         feedbackLabel.classList.remove("text-danger");

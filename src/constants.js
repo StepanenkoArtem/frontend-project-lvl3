@@ -2,6 +2,7 @@ export const STATUS = {
   PENDING: "PENDING",
   DOWNLOADING: "DOWNLOADING",
   FAILED: "FAILED",
+  SUCCESS: "SUCCESS",
 };
 
 export const ERRORS = {

@@ -17,6 +17,7 @@ export default (e, form) => {
     .then(download)
     .then(parse)
     .then(save)
-    .finally(() => (state.status = STATUS.PENDING))
-    .catch(handleError);
+    .finally(() => (state.status = STATUS.SUCCESS))
+    .catch(handleError)
+    .finally(() => (state.status = STATUS.PENDING));
 };
