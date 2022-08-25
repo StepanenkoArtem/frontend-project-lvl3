@@ -5,6 +5,7 @@ import render from "./handlers/render";
 import refetch from "./handlers/refetcher";
 import { initState } from "./initializers";
 import { DELAY } from "./constants";
+import modalWindow from "./templates/modal.html";
 
 export const state = onChange(initState, render);
 
@@ -17,4 +18,8 @@ export default () => {
   const form = document.querySelector("form");
   form.addEventListener("submit", (e) => submit(e, form));
   refreshFeeds();
+  const modalElement = document.createElement('div');
+  modalElement.innerHTML = modalWindow;
+
+  document.body.appendChild(modalElement);
 };

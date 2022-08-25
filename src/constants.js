@@ -10,4 +10,4 @@ export const ERRORS = {
   INVALID_RSS: 'INVALID_RSS',
 }
 
-export const DELAY = 5000;
+export const DELAY = 500000;

@@ -7,6 +7,7 @@ const i18nConfig = {
     en: {
       translation: {
         success: "RSS feed was successfully loaded",
+        viewPostButton: 'View',
         errors: {
           URL_NOT_UNIQ: "This RSS feed already has been loaded",
           INVALID_RSS: "The resource doesn't contain valid RSS feed",

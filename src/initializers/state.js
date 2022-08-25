@@ -27,10 +27,12 @@ export const initState = {
         title: string,
         description: string,
         read: boolean,
-        pubDate: Datetime
+        pubDate: Datetime,
+        link: string,
       }
     */
     ],
+    visitedPostIds: [],
     getPostsForFeed(id) {
       return this.posts.filter((post) => post.feedId === id);
     },
