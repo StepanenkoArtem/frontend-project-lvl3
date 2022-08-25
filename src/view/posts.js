@@ -36,7 +36,7 @@ const createLink = (post) => {
   link.setAttribute("href", post.link);
   link.setAttribute("target", "_blank");
 
-  link.classList.add("col-11", ...linkStyles);
+  link.classList.add("col-10", ...linkStyles);
   link.textContent = post.title;
   link.dataset.postId = post.id;
   link.addEventListener("click", appendVisitedPosts);
@@ -46,7 +46,7 @@ const createLink = (post) => {
 
 const createButton = (post) => {
   const button = document.createElement("button");
-  button.classList.add("btn-sm", "btn-outline-primary", "col-1", "btn");
+  button.classList.add("btn-sm", "btn-outline-primary", "col-2", "btn");
   button.dataset.bsToggle = "modal";
   button.dataset.bsTarget = "#viewPostDetails";
   button.textContent = i18n.t("viewPostButton");
@@ -70,7 +70,19 @@ const renderPost = (post) => {
 };
 
 export default (posts) => {
+  if (!posts.length) {
+    return;
+  }
+
   postContainer.innerHTML = "";
 
-  sortBy(posts, "pubDate").reverse().forEach(renderPost);
+  const postsTitle = document.createElement("h3")
+  postsTitle.textContent = i18n.t('postsHeader');
+  postsTitle.classList.add('h3')
+  postContainer.appendChild(postsTitle);
+
+  const postList = document.createElement("ul");
+  const postListItems = sortBy(posts, "pubDate").reverse().map(renderPost);
+  postList.append(...postListItems);
+  postContainer.prepend(postsTitle);
 };

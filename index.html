@@ -1,33 +1,48 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>RSS Aggregator</title>
-</head>
-<body class="mx-auto ">
-<header class="bg-dark">
-  <div class="container-fluid p-5">
-    <div class="row">
-      <H1 class="my-4">RSS Aggregator</H1>
-      <div class="col col-6">
-        <form action="" class="row mb-0">
-          <input type="text" class="col mx-2 form-control" autofocus required aria-label="url" name="url" placeholder="http://">
-          <input type="submit" class="col-auto mx-2 btn btn-primary">
-        </form>
-        <div aria-label="hint" class="text-muted">Example: https://ru.hexlet.io/lessons.rss</div>
-        <div aria-label="feedback" class="m-0 small position-absolute"> </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>RSS Aggregator</title>
+  </head>
+  <body class="mx-auto text-body">
+    <header class="bg-dark">
+      <div class="container-fluid p-5">
+        <div class="row">
+          <h1 class="my-4 text-light">RSS Aggregator</h1>
+          <div class="col col-6">
+            <form action="" class="row mb-0">
+              <input
+                type="text"
+                class="col mx-2 form-control"
+                autofocus
+                required
+                aria-label="url"
+                name="url"
+                placeholder="http://"
+              />
+              <input type="submit" class="col-auto mx-2 btn btn-primary" />
+            </form>
+            <div aria-label="hint" class="text-muted">
+              Example: https://ru.hexlet.io/lessons.rss
+            </div>
+            <div
+              aria-label="feedback"
+              class="m-0 small position-absolute"
+            ></div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</header>
-<section class="container mt-2">
-  <div class="row">
-    <ul class="col-md-10 col-lg-8 order-1 mx-auto posts"></ul>
-    <div class="col-md-10 col-lg-4 order-0 mx-auto order-lg-1 feeds"></div>
-  </div>
-</section>
-</body>
+    </header>
+    <section class="container mt-2">
+      <div class="row">
+        <div class="col-7 m-3 py-2 posts"></div>
+        <div class="col-4 m-3 py-2 feeds"></div>
+      </div>
+    </section>
+  </body>
 </html>
