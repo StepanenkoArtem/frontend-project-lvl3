@@ -1,20 +1,21 @@
-import i18next from "i18next";
+import i18next from 'i18next';
 
 const i18nConfig = {
-  lng: "ru",
+  lng: 'ru',
   debug: true,
   resources: {
     ru: {
       translation: {
-        success: "RSS успешно загружен",
+        success: 'RSS успешно загружен',
         viewPostButton: 'Просмотр',
         postsHeader: 'Посты',
         feedsHeader: 'Фиды',
+        downloading: 'Загружаю фид...',
         errors: {
-          URL_NOT_UNIQ: "RSS уже существует",
-          INVALID_RSS: "Ресурс не содержит валидный RSS",
-          INVALID_URL: "Ссылка должна быть валидным URL",
-          ERR_NETWORK: "Ошибка сети",
+          URL_NOT_UNIQ: 'RSS уже существует',
+          INVALID_RSS: 'Ресурс не содержит валидный RSS',
+          INVALID_URL: 'Ссылка должна быть валидным URL',
+          ERR_NETWORK: 'Ошибка сети',
         },
       },
     },

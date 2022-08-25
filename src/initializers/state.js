@@ -1,6 +1,6 @@
-import { STATUS } from "../constants";
+import { STATUS } from '../constants';
 
-export const initState = {
+export default {
   error: null,
   status: STATUS.PENDING,
   urls: [],
@@ -26,13 +26,12 @@ export const initState = {
         guid: string,
         title: string,
         description: string,
-        read: boolean,
+        isVisited: boolean,
         pubDate: Datetime,
         link: string,
       }
     */
     ],
-    visitedPostIds: [],
     getPostsForFeed(id) {
       return this.posts.filter((post) => post.feedId === id);
     },

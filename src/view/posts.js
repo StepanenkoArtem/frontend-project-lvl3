@@ -1,6 +1,5 @@
 import { sortBy } from 'lodash/collection';
 import i18n from '../initializers/i18n';
-import { state } from '../init';
 
 const postContainer = document.querySelector('.posts');
 
@@ -9,15 +8,9 @@ const styles = {
   unvisited: ['link-primary', 'fw-bold'],
 };
 
-const appendVisitedPosts = (e) => {
-  const { rss } = state;
-  const id = e.target.dataset.postId;
-  rss.visitedPostIds = [...rss.visitedPostIds, id];
-};
+const markAsVisited = (post) => Object.assign(post, { isVisited: true });
 
-const showPostInfoInModal = (e) => {
-  const id = e.target.dataset.postId;
-  const post = state.rss.posts.find((post) => post.id === id);
+const showPostInfoInModal = (post) => {
   const postInfoModal = document.querySelector('#viewPostDetails');
   postInfoModal.querySelector('.modal-title').textContent = post.title;
   postInfoModal.querySelector('.modal-body').textContent = post.description;
@@ -27,8 +20,7 @@ const showPostInfoInModal = (e) => {
 };
 
 const createLink = (post) => {
-  const { rss } = state;
-  const linkStyles = rss.visitedPostIds.includes(post.id)
+  const linkStyles = post.isVisited
     ? styles.visited
     : styles.unvisited;
 
@@ -39,7 +31,7 @@ const createLink = (post) => {
   link.classList.add('col-10', ...linkStyles);
   link.textContent = post.title;
   link.dataset.postId = post.id;
-  link.addEventListener('click', appendVisitedPosts);
+  link.addEventListener('click', () => markAsVisited(post));
 
   return link;
 };
@@ -51,38 +43,40 @@ const createButton = (post) => {
   button.dataset.bsTarget = '#viewPostDetails';
   button.textContent = i18n.t('viewPostButton');
   button.dataset.postId = post.id;
-  button.addEventListener('click', (e) => {
-    showPostInfoInModal(e);
-    appendVisitedPosts(e);
+  button.addEventListener('click', () => {
+    showPostInfoInModal(post);
+    markAsVisited(post);
   });
   return button;
 };
 
 const renderPost = (post) => {
-  const postDiv = document.createElement('li');
-  postDiv.classList.add('mb-1', 'row');
+  const postListItem = document.createElement('li');
+  postListItem.classList.add('mb-1', 'row');
 
-  const postLink = createLink(post);
-  const viewPostButton = createButton(post);
-
-  postDiv.append(postLink, viewPostButton);
-  postContainer.appendChild(postDiv);
+  postListItem.append(createLink(post), createButton(post));
+  return postListItem;
 };
 
-export default (posts) => {
+export default ({ posts }) => {
+  postContainer.innerHTML = '';
+
   if (!posts.length) {
     return;
   }
 
-  postContainer.innerHTML = '';
-
-  const postsTitle = document.createElement('h3');
-  postsTitle.textContent = i18n.t('postsHeader');
-  postsTitle.classList.add('h3');
-  postContainer.appendChild(postsTitle);
+  const header = document.createElement('h3');
+  header.textContent = i18n.t('postsHeader');
+  header.classList.add('h3');
+  postContainer.appendChild(header);
 
   const postList = document.createElement('ul');
-  const postListItems = sortBy(posts, 'pubDate').reverse().map(renderPost);
-  postList.append(...postListItems);
-  postContainer.prepend(postsTitle);
+  postList.classList.add('m-1', 'p-1');
+
+  const postsListItems = sortBy(posts, 'pubDate')
+    .reverse()
+    .map(renderPost);
+
+  postList.append(...postsListItems);
+  postContainer.append(postList);
 };

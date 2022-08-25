@@ -1,27 +1,27 @@
-import renderPosts from "../view/posts";
-import renderChannels from "../view/channels";
-import renderHeader from "../view/header.js";
-import { state } from "../init";
+import renderPosts from '../view/posts';
+import renderChannels from '../view/channels';
+import renderHeader from '../view/header';
 
-export default (path, current) => {
+export default function render(path, current) {
+  const { rss } = this;
+
+  if (/rss\.posts\.\d*\.isVisited/.test(path)) {
+    renderPosts(rss);
+  }
   switch (path) {
-    case "error":
-    case "status": {
+    case 'error':
+    case 'status': {
       renderHeader(path, current);
       break;
     }
-    case "rss.feeds": {
-      renderChannels(current);
+    case 'rss.feeds': {
+      renderChannels(rss);
       break;
     }
-    case "rss.posts": {
-      renderPosts(current);
-      break;
-    }
-    case "rss.visitedPostIds": {
-      renderPosts(state.rss.posts);
+    case 'rss.posts': {
+      renderPosts(rss);
       break;
     }
     default:
   }
-};
+}

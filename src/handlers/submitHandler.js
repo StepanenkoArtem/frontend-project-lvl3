@@ -1,23 +1,31 @@
-import validateUrl from "../validations/url";
-import { state } from "../init";
-import download from "./downloader";
-import parse from "./parser";
-import save from "./saver";
-import handleError from "./errors";
-import isUrlExist from "../validations/duplication";
-import { STATUS } from "../constants";
+import validateUrl from '../validations/url';
+import download from './downloader';
+import parse from './parser';
+import save from './saver';
+import isUrlExist from '../validations/duplication';
+import { STATUS } from '../constants';
 
-export default (e, form) => {
+export default (e, form, initState) => {
+  const state = initState;
   e.preventDefault();
   const formData = Object.fromEntries(new FormData(form));
   state.status = STATUS.DOWNLOADING;
 
   validateUrl(formData)
-    .then(isUrlExist)
+    .then(({ url }) => isUrlExist(url, state.urls))
     .then(download)
     .then(parse)
-    .then(save)
-    .finally(() => (state.status = STATUS.SUCCESS))
-    .catch(handleError)
-    .finally(() => (state.status = STATUS.PENDING));
+    .then((contents) => save(contents, state))
+    .then(() => {
+      state.error = null;
+      state.status = STATUS.SUCCESS;
+    })
+    .catch((err) => {
+      state.error = err;
+      state.status = STATUS.FAILED;
+    })
+    .finally(() => {
+      state.error = null;
+      state.status = STATUS.PENDING;
+    });
 };
