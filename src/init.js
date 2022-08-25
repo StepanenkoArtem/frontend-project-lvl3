@@ -1,9 +1,8 @@
-import "./initializers";
 import submit from "./handlers/submitHandler";
 import onChange from "on-change";
 import render from "./handlers/render";
 import refetch from "./handlers/refetcher";
-import { initState } from "./initializers";
+import { initState } from "./initializers/state";
 import { DELAY } from "./constants";
 import modalWindow from "./templates/modal.html";
 

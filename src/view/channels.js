@@ -1,4 +1,4 @@
-import {i18n} from "../initializers";
+import i18n from "../initializers/i18n";
 
 const feedsContainer = document.querySelector(".feeds");
 
