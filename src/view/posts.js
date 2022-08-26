@@ -5,7 +5,7 @@ const postContainer = document.querySelector('.posts');
 
 const styles = {
   visited: ['link-secondary', 'fw-normal'],
-  unvisited: ['link-primary', 'fw-bold'],
+  unvisited: ['fw-bold'],
 };
 
 const markAsVisited = (post) => Object.assign(post, { isVisited: true });
@@ -28,7 +28,7 @@ const createLink = (post) => {
   link.setAttribute('href', post.link);
   link.setAttribute('target', '_blank');
 
-  link.classList.add('col-10', ...linkStyles);
+  link.classList.add(...linkStyles);
   link.textContent = post.title;
   link.dataset.postId = post.id;
   link.addEventListener('click', () => markAsVisited(post));
@@ -38,7 +38,7 @@ const createLink = (post) => {
 
 const createButton = (post) => {
   const button = document.createElement('button');
-  button.classList.add('btn-sm', 'btn-outline-primary', 'col-2', 'btn');
+  button.classList.add('btn', 'btn-sm', 'btn-outline-primary');
   button.dataset.bsToggle = 'modal';
   button.dataset.bsTarget = '#viewPostDetails';
   button.textContent = i18n.t('viewPostButton');
@@ -52,7 +52,7 @@ const createButton = (post) => {
 
 const renderPost = (post) => {
   const postListItem = document.createElement('li');
-  postListItem.classList.add('mb-1', 'row');
+  postListItem.classList.add('d-flex', 'justify-content-between', 'border-0', 'rounded-0', 'list-group-item-action', 'list-group-item');
 
   postListItem.append(createLink(post), createButton(post));
   return postListItem;
@@ -71,7 +71,7 @@ export default ({ posts }) => {
   postContainer.appendChild(header);
 
   const postList = document.createElement('ul');
-  postList.classList.add('m-1', 'p-1');
+  postList.classList.add('list-group');
 
   const postsListItems = sortBy(posts, 'pubDate')
     .reverse()

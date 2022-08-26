@@ -2,15 +2,15 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ESLintPlugin = require("eslint-webpack-plugin");
-const webpack = require("webpack");
+const ESLintPlugin = require('eslint-webpack-plugin');
+const webpack = require('webpack');
 
-const isProduction = process.env.NODE_ENV == 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 const config = {
   entry: './src/index.js',
   output: {
-    filename: "bundle.js",
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   devServer: {
@@ -21,11 +21,11 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: "index.html",
-      template: "index.html",
+      filename: 'index.html',
+      template: 'index.html',
     }),
     new ESLintPlugin({
-      exclude: ['node_modules', 'dist']
+      exclude: ['node_modules', 'dist'],
     }),
     new webpack.HotModuleReplacementPlugin(),
   ],
@@ -44,23 +44,21 @@ const config = {
             loader: 'postcss-loader',
             options: {
               postcssOptions: {
-                plugins: [
-                  'autoprefixer',
-                ],
+                plugins: ['autoprefixer'],
               },
             },
           },
           {
             loader: 'sass-loader',
-          }
-        ]
+          },
+        ],
       },
       {
         test: /\.js$/i,
         exclude: /(node_modules)/,
         use: {
-          loader: "babel-loader",
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
@@ -69,8 +67,8 @@ const config = {
       {
         test: /\.html$/,
         exclude: /node_modules/,
-        use: {loader: 'html-loader'}
-      }
+        use: { loader: 'html-loader' },
+      },
     ],
   },
 };

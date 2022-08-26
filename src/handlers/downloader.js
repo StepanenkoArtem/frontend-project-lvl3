@@ -1,11 +1,12 @@
-import axios from 'axios';
+import client from '../initializers/client';
 import { ERRORS } from '../constants';
 
 export default (url) => {
-  const wrappedUrl = `https://allorigins.hexlet.app/get?url=${url}`;
-  return axios
+  const wrappedUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`;
+
+  return client
     .get(wrappedUrl)
-    .then(({ data }) => data)
+    .then(({ data }) => ({ data, url }))
     .catch((e) => {
       if (e.code === 'ERR_NETWORK') {
         throw new Error(ERRORS.ERR_NETWORK);
