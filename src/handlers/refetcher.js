@@ -1,14 +1,12 @@
-import { state } from "../init";
-import download from "../handlers/downloader";
-import parse from "../handlers/parser";
-import save from "../handlers/saver";
+import download from './downloader';
+import parse from './parser';
+import save from './saver';
 
-export default () => {
+export default (state) => {
   const { urls } = state;
-
   urls.forEach((url) => {
     download(url)
       .then(parse)
-      .then(save)
+      .then((contents) => save(contents, state));
   });
 };

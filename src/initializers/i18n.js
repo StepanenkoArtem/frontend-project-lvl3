@@ -1,17 +1,21 @@
-import i18next from "i18next";
+import i18next from 'i18next';
 
 const i18nConfig = {
-  lng: "en",
+  lng: 'ru',
   debug: true,
   resources: {
-    en: {
+    ru: {
       translation: {
-        success: "RSS feed was successfully loaded",
-        viewPostButton: 'View',
+        success: 'RSS успешно загружен',
+        viewPostButton: 'Просмотр',
+        postsHeader: 'Посты',
+        feedsHeader: 'Фиды',
+        downloading: 'Загружаю фид...',
         errors: {
-          URL_NOT_UNIQ: "This RSS feed already has been loaded",
-          INVALID_RSS: "The resource doesn't contain valid RSS feed",
-          INVALID_URL: "The link should be a valid URL address",
+          URL_NOT_UNIQ: 'RSS уже существует',
+          INVALID_RSS: 'Ресурс не содержит валидный RSS',
+          INVALID_URL: 'Ссылка должна быть валидным URL',
+          ERR_NETWORK: 'Ошибка сети',
         },
       },
     },
@@ -21,4 +25,4 @@ const i18nConfig = {
 const i18n = i18next.createInstance();
 i18n.init(i18nConfig).then((t) => t());
 
-export { i18n };
+export default i18n;
