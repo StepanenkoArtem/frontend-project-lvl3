@@ -29,5 +29,4 @@ rules:
 ignorePatterns: [
   "__tests__",
   "dist",
-  "*.config.*"
 ]

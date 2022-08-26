@@ -10,7 +10,7 @@ const i18nConfig = {
         viewPostButton: 'Просмотр',
         postsHeader: 'Посты',
         feedsHeader: 'Фиды',
-        downloading: 'Загружаю фид...',
+        downloading: 'Загружаю фид..',
         errors: {
           URL_NOT_UNIQ: 'RSS уже существует',
           INVALID_RSS: 'Ресурс не содержит валидный RSS',

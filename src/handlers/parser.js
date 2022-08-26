@@ -2,10 +2,9 @@ import { ERRORS } from '../constants';
 
 const parser = new DOMParser();
 
-export default ({ contents, status }) => {
-  const { url } = status;
-
-  const xmlDoc = parser.parseFromString(contents, 'application/xml');
+export default ({ data, url }) => {
+  const { contents } = data;
+  const xmlDoc = parser.parseFromString(contents, 'text/xml');
   if (!xmlDoc.querySelector('rss')) {
     throw Error(ERRORS.INVALID_RSS);
   }
