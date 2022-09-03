@@ -7,6 +7,12 @@ import { STATUS } from '../constants';
 
 export default (e, form, initState) => {
   const state = initState;
+
+  const setState = (status, err = null) => {
+    state.error = err;
+    state.status = status;
+  };
+
   e.preventDefault();
   const formData = Object.fromEntries(new FormData(form));
   state.status = STATUS.PENDING;
@@ -16,16 +22,7 @@ export default (e, form, initState) => {
     .then(download)
     .then(parse)
     .then((contents) => save(contents, state))
-    .then(() => {
-      state.error = null;
-      state.status = STATUS.SUCCESS;
-    })
-    .catch((err) => {
-      state.error = err;
-      state.status = STATUS.FAILED;
-    })
-    .finally(() => {
-      state.error = null;
-      state.status = STATUS.IDLE;
-    });
+    .then(() => setState(STATUS.SUCCESS))
+    .catch((err) => setState(STATUS.FAILED, err))
+    .finally(() => setState(STATUS.IDLE));
 };
