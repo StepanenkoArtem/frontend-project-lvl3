@@ -9,10 +9,8 @@ import download from './handlers/downloader';
 import parse from './handlers/parser';
 import save from './handlers/saver';
 
-export const state = onChange(initState, render);
-
-const refreshFeeds = () => {
-  const { urls, pendingUrls } = state;
+const refreshFeeds = (state) => {
+  const { pendingUrls, urls } = state;
   urls.forEach((url) => {
     if (pendingUrls.includes(url)) {
       return;
@@ -23,13 +21,14 @@ const refreshFeeds = () => {
       .then((contents) => save(contents, state))
       .finally(() => _.remove(pendingUrls, (pendingUrl) => pendingUrl === url));
   });
-  setTimeout(refreshFeeds, DELAY);
+  setTimeout(() => refreshFeeds(state), DELAY);
 };
 
 export default () => {
+  const state = onChange(initState, render);
   const form = document.querySelector('form');
   form.addEventListener('submit', (e) => submit(e, form, state));
-  refreshFeeds();
+  refreshFeeds(state);
   const modalElement = document.createElement('div');
   modalElement.innerHTML = modalWindow;
 
