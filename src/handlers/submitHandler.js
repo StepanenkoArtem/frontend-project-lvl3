@@ -18,9 +18,11 @@ export default (e, form, initState) => {
 
   validateUrl(formData, state.urls)
     .then(({ url }) => download(url))
-    .then(parse)
-    .then((contents) => save(contents, state))
-    .then(() => setState(STATUS.SUCCESS))
+    .then(({ data, url }) => {
+      const feedData = parse({ data, url });
+      save(feedData, state);
+      setState(STATUS.SUCCESS);
+    })
     .catch((err) => setState(STATUS.FAILED, err))
     .finally(() => setState(STATUS.IDLE));
 };
