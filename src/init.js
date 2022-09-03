@@ -3,7 +3,6 @@ import _ from 'lodash';
 import submit from './handlers/submitHandler';
 import render from './handlers/render';
 import { DELAY, STATUS } from './constants';
-import modalWindow from './templates/modal.html';
 import download from './handlers/downloader';
 import parse from './handlers/parser';
 import save from './handlers/saver';
@@ -39,8 +38,7 @@ export default () => {
   const form = document.querySelector('form');
   form.addEventListener('submit', (e) => submit(e, form, state));
   refreshFeeds(state);
-  const modalElement = document.createElement('div');
-  modalElement.innerHTML = modalWindow;
+  const modalElement = document.querySelector('#viewPostDetails');
 
   document.body.appendChild(modalElement);
 };
