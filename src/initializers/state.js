@@ -2,7 +2,7 @@ import { STATUS } from '../constants';
 
 export default {
   error: null,
-  status: STATUS.PENDING,
+  status: STATUS.IDLE,
   urls: [],
   rss: {
     feeds: [
