@@ -18,7 +18,6 @@ const refreshFeeds = () => {
       return;
     }
     pendingUrls.push(url);
-    console.log(pendingUrls);
     download(url)
       .then(parse)
       .then((contents) => save(contents, state))

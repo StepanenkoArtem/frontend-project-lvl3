@@ -41,7 +41,9 @@ const createButton = (post) => {
   button.classList.add('btn', 'btn-sm', 'btn-outline-primary');
   button.dataset.bsToggle = 'modal';
   button.dataset.bsTarget = '#viewPostDetails';
-  button.textContent = i18n.t('viewPostButton');
+  i18n.then((t) => {
+    button.textContent = t('viewPostButton');
+  });
   button.dataset.postId = post.id;
   button.addEventListener('click', () => {
     showPostInfoInModal(post);
@@ -66,7 +68,9 @@ export default ({ posts }) => {
   }
 
   const header = document.createElement('h3');
-  header.textContent = i18n.t('postsHeader');
+  i18n.then((t) => {
+    header.textContent = t('postsHeader');
+  });
   header.classList.add('h3');
   postContainer.appendChild(header);
 

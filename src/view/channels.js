@@ -9,7 +9,9 @@ export default ({ feeds }) => {
   }
 
   const header = document.createElement('h3');
-  header.textContent = i18n.t('feedsHeader');
+  i18n.then((t) => {
+    header.textContent = t('feedsHeader');
+  });
   header.classList.add('h3');
 
   const feedListItems = feeds.map((feed) => {

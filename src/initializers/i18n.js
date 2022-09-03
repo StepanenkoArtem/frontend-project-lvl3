@@ -22,7 +22,4 @@ const i18nConfig = {
   },
 };
 
-const i18n = i18next.createInstance();
-i18n.init(i18nConfig).then((t) => t());
-
-export default i18n;
+export default i18next.createInstance().init(i18nConfig);

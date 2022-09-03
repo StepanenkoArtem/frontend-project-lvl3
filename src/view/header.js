@@ -16,12 +16,16 @@ export default (path, current) => {
       submit.disabled = isFormDisabled(current);
       if (current === STATUS.SUCCESS) {
         input.value = '';
-        feedbackLabel.textContent = i18n.t('success');
+        i18n.then((t) => {
+          feedbackLabel.textContent = t('success');
+        });
         feedbackLabel.classList.remove('text-danger', 'text-info');
         feedbackLabel.classList.add('text-success');
       }
       if (current === STATUS.PENDING) {
-        feedbackLabel.textContent = i18n.t('downloading');
+        i18n.then((t) => {
+          feedbackLabel.textContent = t('downloading');
+        });
         feedbackLabel.classList.remove('text-success', 'text-danger');
         feedbackLabel.classList.add('text-info');
       }
@@ -33,7 +37,9 @@ export default (path, current) => {
       }
       feedbackLabel.classList.remove('text-success');
       feedbackLabel.classList.add('text-danger');
-      feedbackLabel.textContent = i18n.t(`errors.${current.message}`);
+      i18n.then((t) => {
+        feedbackLabel.textContent = t(`errors.${current.message}`);
+      });
       break;
     }
     default: {
