@@ -5,20 +5,21 @@ import renderHeader from '../view/header';
 export default function render(path, current) {
   const { rss } = this;
 
-  if (/rss\.posts\.\d*\.isVisited/.test(path)) {
-    renderPosts(rss);
-  }
-  switch (path) {
-    case 'error':
-    case 'status': {
+  switch (true) {
+    case /rss\.posts\.\d*\.isVisited/.test(path): {
+      renderPosts(rss);
+      break;
+    }
+    case /error/.test(path):
+    case /status/.test(path): {
       renderHeader(path, current);
       break;
     }
-    case 'rss.feeds': {
+    case /rss\.feeds/.test(path): {
       renderChannels(rss);
       break;
     }
-    case 'rss.posts': {
+    case /rss\.posts/.test(path): {
       renderPosts(rss);
       break;
     }
