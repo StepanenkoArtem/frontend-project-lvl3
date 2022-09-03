@@ -14,30 +14,8 @@ const initState = {
   urls: [],
   pendingUrls: [],
   rss: {
-    feeds: [
-      /*
-      {
-        id: number,
-        url: string,
-        title: string,
-        description: string,
-      } */
-    ],
-
-    posts: [
-      /*
-      {
-        id: string,
-        feedId: number,
-        guid: string,
-        title: string,
-        description: string,
-        isVisited: boolean,
-        pubDate: Datetime,
-        link: string,
-      }
-    */
-    ],
+    feeds: [],
+    posts: [],
   },
 };
 
