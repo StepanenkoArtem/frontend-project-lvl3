@@ -1,10 +1,10 @@
-import client from '../initializers/client';
+import axios from 'axios';
 import { ERRORS } from '../constants';
 
 export default (url) => {
   const wrappedUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`;
 
-  return client
+  return axios
     .get(wrappedUrl)
     .then(({ data }) => ({ data, url }))
     .catch((e) => {
