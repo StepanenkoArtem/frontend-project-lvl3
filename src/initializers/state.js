@@ -4,6 +4,7 @@ export default {
   error: null,
   status: STATUS.IDLE,
   urls: [],
+  pendingUrls: [],
   rss: {
     feeds: [
       /*
