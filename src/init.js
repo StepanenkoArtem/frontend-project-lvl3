@@ -2,12 +2,22 @@ import onChange from 'on-change';
 import _ from 'lodash';
 import submit from './handlers/submitHandler';
 import render from './handlers/render';
-import initState from './initializers/state';
-import { DELAY } from './constants';
+import { DELAY, STATUS } from './constants';
 import modalWindow from './templates/modal.html';
 import download from './handlers/downloader';
 import parse from './handlers/parser';
 import save from './handlers/saver';
+
+const initState = {
+  error: null,
+  status: STATUS.IDLE,
+  urls: [],
+  pendingUrls: [],
+  rss: {
+    feeds: [],
+    posts: [],
+  },
+};
 
 const refreshFeeds = (state) => {
   const { pendingUrls, urls } = state;
