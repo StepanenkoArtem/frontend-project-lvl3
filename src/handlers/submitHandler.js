@@ -9,7 +9,7 @@ export default (e, form, initState) => {
   const state = initState;
   e.preventDefault();
   const formData = Object.fromEntries(new FormData(form));
-  state.status = STATUS.DOWNLOADING;
+  state.status = STATUS.PENDING;
 
   validateUrl(formData)
     .then(({ url }) => isUrlExist(url, state.urls))
@@ -26,6 +26,6 @@ export default (e, form, initState) => {
     })
     .finally(() => {
       state.error = null;
-      state.status = STATUS.PENDING;
+      state.status = STATUS.IDLE;
     });
 };
