@@ -1,8 +1,21 @@
-import validateUrl from '../validations/url';
+import * as Yup from 'yup';
 import download from './downloader';
 import parse from './parser';
 import save from './saver';
-import { STATUS } from '../constants';
+import { STATUS, ERRORS } from '../constants';
+
+const errorTypes = {
+  notOneOf: ERRORS.URL_NOT_UNIQ,
+  url: ERRORS.INVALID_URL,
+};
+
+const validateUrl = (url, urls) => {
+  const urlFormSchema = Yup.object().shape({ url: Yup.string().trim().url().notOneOf(urls) });
+
+  return urlFormSchema.validate(url).catch((e) => {
+    throw new Error(errorTypes[e.type]);
+  });
+};
 
 export default (e, form, initState) => {
   const state = initState;

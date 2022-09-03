@@ -26,8 +26,10 @@ const refreshFeeds = (state) => {
     }
     pendingUrls.push(url);
     download(url)
-      .then(parse)
-      .then((contents) => save(contents, state))
+      .then(({ data }) => {
+        const feedData = parse({ data, url });
+        save(feedData, state);
+      })
       .finally(() => _.remove(pendingUrls, (pendingUrl) => pendingUrl === url));
   });
   setTimeout(() => refreshFeeds(state), DELAY);
@@ -39,6 +41,5 @@ export default () => {
   form.addEventListener('submit', (e) => submit(e, form, state));
   refreshFeeds(state);
   const modalElement = document.querySelector('#viewPostDetails');
-
   document.body.appendChild(modalElement);
 };
