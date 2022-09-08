@@ -19,7 +19,7 @@ const validateUrl = (url, urls) => {
 
 export default (e, form, initState) => {
   const state = initState;
-
+  const urls = state.rss.feeds.map(({ url }) => url);
   const setState = (status, err = null) => {
     state.error = err;
     state.status = status;
@@ -29,7 +29,7 @@ export default (e, form, initState) => {
   const formData = Object.fromEntries(new FormData(form));
   state.status = STATUS.PENDING;
 
-  validateUrl(formData, state.urls)
+  validateUrl(formData, urls)
     .then(({ url }) => download(url))
     .then(({ data, url }) => {
       const feedData = parse({ data, url });
