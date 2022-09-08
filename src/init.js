@@ -1,17 +1,15 @@
 import onChange from 'on-change';
-import _ from 'lodash';
 import submit from './handlers/submitHandler';
 import render from './handlers/render';
 import { DELAY, STATUS } from './constants';
 import download from './handlers/downloader';
 import parse from './handlers/parser';
 import save from './handlers/saver';
+import { getUrls } from './helpers';
 
 const initState = {
   error: null,
   status: STATUS.IDLE,
-  urls: [],
-  pendingUrls: [],
   rss: {
     feeds: [],
     posts: [],
@@ -19,20 +17,16 @@ const initState = {
 };
 
 const refreshFeeds = (state) => {
-  const { pendingUrls, urls } = state;
-  urls.forEach((url) => {
-    if (pendingUrls.includes(url)) {
-      return;
-    }
-    pendingUrls.push(url);
-    download(url)
+  const urls = getUrls(state);
+  Promise
+    .all(urls.map((url) => download(url)
       .then(({ data }) => {
         const feedData = parse({ data, url });
         save(feedData, state);
-      })
-      .finally(() => _.remove(pendingUrls, (pendingUrl) => pendingUrl === url));
-  });
-  setTimeout(() => refreshFeeds(state), DELAY);
+      })))
+    .then(() => {
+      setTimeout(() => refreshFeeds(state), DELAY);
+    });
 };
 
 export default () => {

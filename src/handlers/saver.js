@@ -2,13 +2,14 @@ import { nanoid } from 'nanoid';
 import { getFeedByUrl, getPostsForFeed } from '../helpers';
 
 export default ({ feedInfo, feedPosts }, state) => {
-  const { rss, urls } = state;
+  const { rss } = state;
+  const urls = state.rss.feeds.map(({ url }) => url);
   const { url } = feedInfo;
   const feedId = getFeedByUrl(url, rss.feeds)?.id || nanoid(6);
   const existedPosts = getPostsForFeed(feedId, rss.posts);
 
   if (!urls.includes(url)) {
-    state.urls.push(url);
+    console.log('NEW URL!!!');
     rss.feeds = [...rss.feeds, { id: feedId, ...feedInfo }];
   }
 
