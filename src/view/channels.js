@@ -1,8 +1,8 @@
 import i18n from '../initializers/i18n';
 
-const feedsContainer = document.querySelector('.feeds');
-
-export default ({ feeds }) => {
+export default (rss, ui) => {
+  const { feedsContainer } = ui;
+  const { feeds } = rss;
   feedsContainer.innerHTML = '';
   if (!feeds.length) {
     return;

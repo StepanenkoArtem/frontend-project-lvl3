@@ -1,8 +1,6 @@
 import { sortBy } from 'lodash/collection';
 import i18n from '../initializers/i18n';
 
-const postContainer = document.querySelector('.posts');
-
 const styles = {
   visited: ['link-secondary', 'fw-normal'],
   unvisited: ['fw-bold'],
@@ -60,7 +58,9 @@ const renderPost = (post) => {
   return postListItem;
 };
 
-export default ({ posts }) => {
+export default (rss, ui) => {
+  const { postContainer } = ui;
+  const { posts } = rss;
   postContainer.innerHTML = '';
 
   if (!posts.length) {
