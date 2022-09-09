@@ -37,7 +37,7 @@ const createButton = (post) => {
 
 const renderPost = (post, isVisited) => {
   const postListItem = document.createElement('li');
-  postListItem.classList.add('d-flex', 'justify-content-between', 'border-0', 'rounded-0', 'list-group-item-action', 'list-group-item');
+  postListItem.classList.add('d-flex', 'justify-content-between', 'border-0', 'rounded-0', 'list-group-item-action', 'list-group-item', 'align-items-center');
 
   postListItem.append(createLink(post, isVisited), createButton(post));
   return postListItem;
