@@ -14,6 +14,7 @@ const initState = {
     feeds: [],
     posts: [],
   },
+  visitedPostIds: [],
 };
 
 const header = document.querySelector('header');
@@ -25,15 +26,23 @@ const postContainer = document.querySelector('.posts');
 
 const refreshFeeds = (state) => {
   const urls = getUrls(state);
-  Promise
-    .all(urls.map((url) => download(url)
-      .then(({ data }) => {
-        const feedData = parse({ data, url });
-        save(feedData, state);
-      })))
+  Promise.all(urls.map((url) => download(url)
+    .then(({ data }) => {
+      const feedData = parse({ data, url });
+      save(feedData, state);
+    })))
     .then(() => {
       setTimeout(() => refreshFeeds(state), DELAY);
     });
+};
+
+const showPostInfoInModal = (post) => {
+  const postInfoModal = document.querySelector('#viewPostDetails');
+  postInfoModal.querySelector('.modal-title').textContent = post.title;
+  postInfoModal.querySelector('.modal-body').textContent = post.description;
+  const readButton = postInfoModal.querySelector('#readPostButton');
+  readButton.setAttribute('href', post.link);
+  readButton.setAttribute('target', '_blank');
 };
 
 export default () => {
@@ -48,12 +57,22 @@ export default () => {
 
   function onChangeHandler(path, current) {
     render(path, current, ui, this);
+
+    const postElements = document.querySelectorAll('[data-post-id]');
+    postElements.forEach((postElement) => {
+      postElement.addEventListener('click', (e) => {
+        const { postId } = e.target.dataset;
+        this.visitedPostIds = [...this.visitedPostIds, postId];
+        if (postElement.tagName === 'BUTTON') {
+          const postData = this.rss.posts.find((post) => post.id === postId);
+          showPostInfoInModal(postData);
+        }
+      });
+    });
   }
 
   const state = onChange(initState, onChangeHandler);
   const form = document.querySelector('form');
   form.addEventListener('submit', (e) => submit(e, form, state));
   refreshFeeds(state);
-  const modalElement = document.querySelector('#viewPostDetails');
-  document.body.appendChild(modalElement);
 };

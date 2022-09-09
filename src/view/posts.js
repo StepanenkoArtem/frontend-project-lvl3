@@ -6,19 +6,8 @@ const styles = {
   unvisited: ['fw-bold'],
 };
 
-const markAsVisited = (post) => Object.assign(post, { isVisited: true });
-
-const showPostInfoInModal = (post) => {
-  const postInfoModal = document.querySelector('#viewPostDetails');
-  postInfoModal.querySelector('.modal-title').textContent = post.title;
-  postInfoModal.querySelector('.modal-body').textContent = post.description;
-  const readButton = postInfoModal.querySelector('#readPostButton');
-  readButton.setAttribute('href', post.link);
-  readButton.setAttribute('target', '_blank');
-};
-
-const createLink = (post) => {
-  const linkStyles = post.isVisited
+const createLink = (post, isVisited) => {
+  const linkStyles = isVisited
     ? styles.visited
     : styles.unvisited;
 
@@ -29,7 +18,6 @@ const createLink = (post) => {
   link.classList.add(...linkStyles);
   link.textContent = post.title;
   link.dataset.postId = post.id;
-  link.addEventListener('click', () => markAsVisited(post));
 
   return link;
 };
@@ -43,22 +31,19 @@ const createButton = (post) => {
     button.textContent = t('viewPostButton');
   });
   button.dataset.postId = post.id;
-  button.addEventListener('click', () => {
-    showPostInfoInModal(post);
-    markAsVisited(post);
-  });
+
   return button;
 };
 
-const renderPost = (post) => {
+const renderPost = (post, isVisited) => {
   const postListItem = document.createElement('li');
   postListItem.classList.add('d-flex', 'justify-content-between', 'border-0', 'rounded-0', 'list-group-item-action', 'list-group-item');
 
-  postListItem.append(createLink(post), createButton(post));
+  postListItem.append(createLink(post, isVisited), createButton(post));
   return postListItem;
 };
 
-export default (rss, ui) => {
+export default (rss, visitedPostIds, ui) => {
   const { postContainer } = ui;
   const { posts } = rss;
   postContainer.innerHTML = '';
@@ -79,7 +64,10 @@ export default (rss, ui) => {
 
   const postsListItems = sortBy(posts, 'pubDate')
     .reverse()
-    .map(renderPost);
+    .map((post) => {
+      const isVisited = visitedPostIds.includes(post.id);
+      return renderPost(post, isVisited);
+    });
 
   postList.append(...postsListItems);
   postContainer.append(postList);
