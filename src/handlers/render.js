@@ -6,10 +6,6 @@ export default function render(path, current, ui, state) {
   const { rss } = state;
 
   switch (true) {
-    case /rss\.posts\.\d*\.isVisited/.test(path): {
-      renderPosts(rss);
-      break;
-    }
     case /error/.test(path):
     case /status/.test(path): {
       renderHeader(path, current, ui);
@@ -19,8 +15,10 @@ export default function render(path, current, ui, state) {
       renderChannels(rss, ui);
       break;
     }
+    case /visitedPostIds/.test(path):
     case /rss\.posts/.test(path): {
-      renderPosts(rss, ui);
+      const { visitedPostIds } = state;
+      renderPosts(rss, visitedPostIds, ui);
       break;
     }
     default:
