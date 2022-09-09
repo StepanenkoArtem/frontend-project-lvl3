@@ -1,21 +1,16 @@
 import i18n from '../initializers/i18n';
 import { STATUS } from '../constants';
 
-const header = document.querySelector('header');
-
-const feedbackLabel = header.querySelector('[aria-label="feedback"]');
-const input = header.querySelector('[aria-label="url"]');
-const submit = header.querySelector('[type="submit"]');
-
 const isFormDisabled = (status) => status === STATUS.PENDING;
 
-export default (path, current) => {
+export default (path, current, ui) => {
+  const { submitButton, urlInput, feedbackLabel } = ui;
   switch (path) {
     case 'status': {
-      input.disabled = isFormDisabled(current);
-      submit.disabled = isFormDisabled(current);
+      urlInput.disabled = isFormDisabled(current);
+      submitButton.disabled = isFormDisabled(current);
       if (current === STATUS.SUCCESS) {
-        input.value = '';
+        urlInput.value = '';
         i18n.then((t) => {
           feedbackLabel.textContent = t('success');
         });

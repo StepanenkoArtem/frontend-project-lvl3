@@ -9,7 +9,6 @@ export default ({ feedInfo, feedPosts }, state) => {
   const existedPosts = getPostsForFeed(feedId, rss.posts);
 
   if (!urls.includes(url)) {
-    console.log('NEW URL!!!');
     rss.feeds = [...rss.feeds, { id: feedId, ...feedInfo }];
   }
 

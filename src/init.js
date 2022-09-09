@@ -16,6 +16,13 @@ const initState = {
   },
 };
 
+const header = document.querySelector('header');
+const feedbackLabel = header.querySelector('[aria-label="feedback"]');
+const urlInput = header.querySelector('[aria-label="url"]');
+const submitButton = header.querySelector('[type="submit"]');
+const feedsContainer = document.querySelector('.feeds');
+const postContainer = document.querySelector('.posts');
+
 const refreshFeeds = (state) => {
   const urls = getUrls(state);
   Promise
@@ -30,7 +37,20 @@ const refreshFeeds = (state) => {
 };
 
 export default () => {
-  const state = onChange(initState, render);
+  const ui = {
+    header,
+    feedbackLabel,
+    urlInput,
+    submitButton,
+    feedsContainer,
+    postContainer,
+  };
+
+  function onChangeHandler(path, current) {
+    render(path, current, ui, this);
+  }
+
+  const state = onChange(initState, onChangeHandler);
   const form = document.querySelector('form');
   form.addEventListener('submit', (e) => submit(e, form, state));
   refreshFeeds(state);
