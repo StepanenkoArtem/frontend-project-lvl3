@@ -6,6 +6,7 @@ import download from './handlers/downloader';
 import parse from './handlers/parser';
 import save from './handlers/saver';
 import { getUrls } from './helpers';
+import i18n from './initializers/i18n';
 
 const refreshFeeds = (state) => {
   const urls = getUrls(state);
@@ -45,7 +46,9 @@ export default () => {
   };
 
   function onChangeHandler(path, current) {
-    render(path, current, ui, this);
+    i18n.then((t) => {
+      render(path, current, ui, this, t);
+    });
 
     const postElements = document.querySelectorAll('[data-post-id]');
     postElements.forEach((postElement) => {
