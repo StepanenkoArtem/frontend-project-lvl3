@@ -7,23 +7,6 @@ import parse from './handlers/parser';
 import save from './handlers/saver';
 import { getUrls } from './helpers';
 
-const initState = {
-  error: null,
-  status: STATUS.IDLE,
-  rss: {
-    feeds: [],
-    posts: [],
-  },
-  visitedPostIds: [],
-};
-
-const header = document.querySelector('header');
-const feedbackLabel = header.querySelector('[aria-label="feedback"]');
-const urlInput = header.querySelector('[aria-label="url"]');
-const submitButton = header.querySelector('[type="submit"]');
-const feedsContainer = document.querySelector('.feeds');
-const postContainer = document.querySelector('.posts');
-
 const refreshFeeds = (state) => {
   const urls = getUrls(state);
   Promise.all(urls.map((url) => download(url)
@@ -46,13 +29,19 @@ const showPostInfoInModal = (post) => {
 };
 
 export default () => {
+  const initState = {
+    error: null,
+    status: STATUS.IDLE,
+    rss: { feeds: [], posts: [] },
+    visitedPostIds: [],
+  };
+
   const ui = {
-    header,
-    feedbackLabel,
-    urlInput,
-    submitButton,
-    feedsContainer,
-    postContainer,
+    feedbackLabel: document.querySelector('[aria-label="feedback"]'),
+    urlInput: document.querySelector('[aria-label="url"]'),
+    submitButton: document.querySelector('header [type="submit"]'),
+    feedsContainer: document.querySelector('.feeds'),
+    postContainer: document.querySelector('.posts'),
   };
 
   function onChangeHandler(path, current) {
