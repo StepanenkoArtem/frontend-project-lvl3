@@ -31,7 +31,7 @@ const refreshFeeds = (state) => {
       const feedData = parse({ data, url });
       save(feedData, state);
     })))
-    .then(() => {
+    .finally(() => {
       setTimeout(() => refreshFeeds(state), DELAY);
     });
 };
