@@ -6,18 +6,19 @@ export default ({ data, url }) => {
   const { contents } = data;
   const xmlDoc = parser.parseFromString(contents, 'text/xml');
   if (!xmlDoc.querySelector('rss')) {
-    throw Error(ERRORS.INVALID_RSS);
+    throw new Error(ERRORS.INVALID_RSS);
   }
+
   const feed = xmlDoc.querySelector('channel');
 
   const feedPosts = Array.from(feed.childNodes)
     .filter((child) => child.nodeName === 'item')
     .map((post) => ({
-      title: post.querySelector('title')?.firstChild?.nodeValue,
-      description: post.querySelector('description')?.firstChild?.nodeValue,
-      link: post.querySelector('link')?.firstChild?.nodeValue,
-      pubDate: post.querySelector('pubDate')?.firstChild?.nodeValue,
-      guid: post.querySelector('guid')?.firstChild?.nodeValue,
+      title: post.querySelector('title').innerHTML,
+      description: post.querySelector('description').innerHTML,
+      link: post.querySelector('link').innerHTML,
+      pubDate: post.querySelector('pubDate').innerHTML,
+      guid: post.querySelector('guid').innerHTML,
     }));
 
   const feedInfo = {

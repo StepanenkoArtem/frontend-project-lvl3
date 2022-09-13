@@ -1,9 +1,8 @@
-import i18n from '../initializers/i18n';
 import { STATUS } from '../constants';
 
 const isFormDisabled = (status) => status === STATUS.PENDING;
 
-export default (path, current, ui) => {
+export default (path, current, ui, t) => {
   const { submitButton, urlInput, feedbackLabel } = ui;
   switch (path) {
     case 'status': {
@@ -11,16 +10,12 @@ export default (path, current, ui) => {
       submitButton.disabled = isFormDisabled(current);
       if (current === STATUS.SUCCESS) {
         urlInput.value = '';
-        i18n.then((t) => {
-          feedbackLabel.textContent = t('success');
-        });
+        feedbackLabel.textContent = t('success');
         feedbackLabel.classList.remove('text-danger', 'text-info');
         feedbackLabel.classList.add('text-success');
       }
       if (current === STATUS.PENDING) {
-        i18n.then((t) => {
-          feedbackLabel.textContent = t('downloading');
-        });
+        feedbackLabel.textContent = t('downloading');
         feedbackLabel.classList.remove('text-success', 'text-danger');
         feedbackLabel.classList.add('text-info');
       }
@@ -32,9 +27,7 @@ export default (path, current, ui) => {
       }
       feedbackLabel.classList.remove('text-success');
       feedbackLabel.classList.add('text-danger');
-      i18n.then((t) => {
-        feedbackLabel.textContent = t(`errors.${current.message}`);
-      });
+      feedbackLabel.textContent = t(['errors', current.message].join('.'));
       break;
     }
     default: {
