@@ -8,25 +8,17 @@ import save from './handlers/saver';
 import { getUrls } from './helpers';
 import i18n from './initializers/i18n';
 
-const refreshFeeds = (state) => {
+const refetchFeeds = (state) => {
   const urls = getUrls(state);
+
   Promise.all(urls.map((url) => download(url)
     .then(({ data }) => {
       const feedData = parse({ data, url });
       save(feedData, state);
     })))
     .finally(() => {
-      setTimeout(() => refreshFeeds(state), DELAY);
+      setTimeout(() => refetchFeeds(state), DELAY);
     });
-};
-
-const showPostInfoInModal = (post) => {
-  const postInfoModal = document.querySelector('#viewPostDetails');
-  postInfoModal.querySelector('.modal-title').textContent = post.title;
-  postInfoModal.querySelector('.modal-body').textContent = post.description;
-  const readButton = postInfoModal.querySelector('#readPostButton');
-  readButton.setAttribute('href', post.link);
-  readButton.setAttribute('target', '_blank');
 };
 
 export default () => {
@@ -35,6 +27,7 @@ export default () => {
     status: STATUS.IDLE,
     rss: { feeds: [], posts: [] },
     visitedPostIds: [],
+    postInModalWindow: null,
   };
 
   const ui = {
@@ -49,22 +42,14 @@ export default () => {
     i18n.then((t) => {
       render(path, current, ui, this, t);
     });
-
-    const postElements = document.querySelectorAll('[data-post-id]');
-    postElements.forEach((postElement) => {
-      postElement.addEventListener('click', (e) => {
-        const { postId } = e.target.dataset;
-        this.visitedPostIds = [...this.visitedPostIds, postId];
-        if (postElement.tagName === 'BUTTON') {
-          const postData = this.rss.posts.find((post) => post.id === postId);
-          showPostInfoInModal(postData);
-        }
-      });
-    });
   }
 
   const state = onChange(initState, onChangeHandler);
   const form = document.querySelector('form');
   form.addEventListener('submit', (e) => submit(e, form, state));
-  refreshFeeds(state);
+  refetchFeeds(state);
+  const closeModalButtons = document.querySelectorAll('[data-bs-dismiss="modal"]');
+  closeModalButtons.forEach((btn) => {
+    btn.addEventListener('click', state.postInModalWindow = null);
+  });
 };

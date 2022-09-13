@@ -10,9 +10,7 @@ const buildButton = (post, t) => {
   button.classList.add('btn', 'btn-sm', 'btn-outline-primary');
   button.dataset.bsToggle = 'modal';
   button.dataset.bsTarget = '#viewPostDetails';
-
   button.textContent = t('viewPostButton');
-
   button.dataset.postId = post.id;
 
   return button;

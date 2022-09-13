@@ -34,8 +34,11 @@ export default (e, form, initState) => {
     .then(({ data, url }) => {
       const feedData = parse({ data, url });
       save(feedData, state);
+
       setState(STATUS.SUCCESS);
     })
     .catch((err) => setState(STATUS.FAILED, err))
-    .finally(() => setState(STATUS.IDLE));
+    .finally(() => {
+      setState(STATUS.IDLE);
+    });
 };
