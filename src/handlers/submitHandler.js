@@ -13,7 +13,7 @@ const validateUrl = (url, urls) => {
   const urlFormSchema = Yup.object().shape({ url: Yup.string().trim().url().notOneOf(urls) });
 
   return urlFormSchema.validate(url).catch((e) => {
-    throw new Error(errorTypes[e.type]);
+    throw Error(errorTypes[e.type]);
   });
 };
 

@@ -6,8 +6,9 @@ export default ({ data, url }) => {
   const { contents } = data;
   const xmlDoc = parser.parseFromString(contents, 'text/xml');
   if (!xmlDoc.querySelector('rss')) {
-    throw Error(ERRORS.INVALID_RSS);
+    throw new Error(ERRORS.INVALID_RSS);
   }
+
   const feed = xmlDoc.querySelector('channel');
 
   const feedPosts = Array.from(feed.childNodes)

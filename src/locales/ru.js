@@ -9,7 +9,7 @@ export default {
       URL_NOT_UNIQ: 'RSS уже существует',
       INVALID_RSS: 'Ресурс не содержит валидный RSS',
       INVALID_URL: 'Ссылка должна быть валидным URL',
-      ERR_NETWORK: 'Ошибка сети',
+      'Network Error': 'Ошибка сети',
     },
   },
 };

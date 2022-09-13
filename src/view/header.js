@@ -27,7 +27,7 @@ export default (path, current, ui, t) => {
       }
       feedbackLabel.classList.remove('text-success');
       feedbackLabel.classList.add('text-danger');
-      feedbackLabel.textContent = t(`errors.${current.message}`);
+      feedbackLabel.textContent = t(['errors', current.message].join('.'));
       break;
     }
     default: {
