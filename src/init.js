@@ -8,6 +8,16 @@ import save from './handlers/saver';
 import { getUrls } from './helpers';
 import i18n from './initializers/i18n';
 
+const addPostsEventListener = (postContainer, state) => {
+  postContainer.addEventListener('click', (e) => {
+    const { postId } = e.target.dataset;
+    state.visitedPostIds = [...state.visitedPostIds, postId];
+    if (e.target.tagName === 'BUTTON') {
+      state.postInModalWindow = state.rss.posts.find((post) => post.id === postId);
+    }
+  });
+};
+
 const refetchFeeds = (state) => {
   const urls = getUrls(state);
 
@@ -36,6 +46,7 @@ export default () => {
     submitButton: document.querySelector('header [type="submit"]'),
     feedsContainer: document.querySelector('.feeds'),
     postContainer: document.querySelector('.posts'),
+    closeModalButtons: document.querySelectorAll('[data-bs-dismiss="modal"]'),
   };
 
   function onChangeHandler(path, current) {
@@ -48,8 +59,8 @@ export default () => {
   const form = document.querySelector('form');
   form.addEventListener('submit', (e) => submit(e, form, state));
   refetchFeeds(state);
-  const closeModalButtons = document.querySelectorAll('[data-bs-dismiss="modal"]');
-  closeModalButtons.forEach((btn) => {
+  addPostsEventListener(ui.postContainer, state);
+  ui.closeModalButtons.forEach((btn) => {
     btn.addEventListener('click', state.postInModalWindow = null);
   });
 };
