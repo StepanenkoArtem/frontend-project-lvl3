@@ -17,8 +17,7 @@ const validateUrl = (url, urls) => {
   });
 };
 
-export default (e, form, initState) => {
-  const state = initState;
+export default (e, form, state) => {
   const urls = state.rss.feeds.map(({ url }) => url);
   const setState = (status, err = null) => {
     state.error = err;
